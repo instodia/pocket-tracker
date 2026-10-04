@@ -12,7 +12,7 @@ for you at the bottom. Create as many lists as you like, one per week, trip, or 
 - **Automatic titles**: a list you don't name shows as `₹500 • 4 October` (amount and received date); type a title any time to override it.
 - **Product rows** with name, MRP, and date. The date defaults to today and can be changed per item.
 - **Pure black UI** that's easy on the eyes and on OLED screens.
-- **Installable (PWA)**: web app manifest, maskable icons, and a service worker that caches the app shell so it opens offline. An "Install app" button appears in the header when the browser offers installation.
+- **Installable (PWA)**: web app manifest, maskable icons, and a service worker that caches the app shell so it opens offline.
 - **Live totals** pinned to the bottom: received, total expense, and remaining (or how far over budget you are).
 - **Currency switcher** (INR default, plus USD, EUR, GBP) with locale-aware formatting.
 - **Saved on-device** in the browser's local storage, synced across open tabs. No account or server required.
@@ -74,9 +74,9 @@ two SVGs; edit the SVGs and regenerate the PNGs (for example with `sharp`) if yo
 
 ## Installing as an app
 
-- **Android (Chrome)**: tap **Install app** in the header, or Chrome menu → *Add to Home screen* → *Install*.
+- **Android (Chrome)**: Chrome menu → *Add to Home screen* → *Install*.
 - **iPhone/iPad (Safari)**: Share → *Add to Home Screen*.
-- **Desktop (Chrome/Edge)**: click the install icon in the address bar or the **Install app** button.
+- **Desktop (Chrome/Edge)**: click the install icon in the address bar.
 
 The service worker (`public/sw.js`) is only registered in production builds (`npm run build && npm run start`, or a deployment).
 

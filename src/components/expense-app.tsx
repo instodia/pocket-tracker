@@ -5,7 +5,6 @@ import { cn } from "cn";
 import { AlertTriangle, NotebookPen, Plus, Search, X } from "lucide-react";
 import { ListCard } from "@/components/list-card";
 import { ListEditor } from "@/components/list-editor";
-import { InstallButton } from "@/components/pwa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { listTotals, useExpenseLists } from "@/hooks/use-expense-lists";
@@ -64,7 +63,6 @@ export function ExpenseApp() {
         <label className="sr-only" htmlFor="currency">
           Currency
         </label>
-        <InstallButton />
         <select
           id="currency"
           value={store.currency}
