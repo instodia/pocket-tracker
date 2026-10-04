@@ -11,7 +11,7 @@ for you at the bottom. Create as many lists as you like, one per week, trip, or 
 - **Unique 8-character ID** on every list (letters and digits without look-alikes), shown on cards and in the editor with one-tap copy; search by ID with or without a leading `#`. The open list is reflected in the URL as `?id=XXXXXXXX`, so lists are linkable and the browser back button returns to the grid.
 - **Received from home** amount and the date it was received at the top of every list.
 - **Automatic titles**: a list you don't name shows as `₹500 • 4 October` (amount and received date); type a title any time to override it.
-- **Product rows** with name, MRP, and date. The date defaults to today and can be changed per item.
+- **Product rows** with name, MRP, and date. The date defaults to today and can be changed per item. Rows can be moved up or down to reorder the list.
 - **Pure black UI** that's easy on the eyes and on OLED screens.
 - **Installable (PWA)**: web app manifest, maskable icons, and a service worker that caches the app shell so it opens offline.
 - **Live totals** pinned to the bottom: received, total expense, and remaining (or how far over budget you are).

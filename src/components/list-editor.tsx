@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { cn } from "cn";
 import { ArrowLeft, Check, Copy, Hash, Trash2, Wallet } from "lucide-react";
 import { AddItemRow } from "@/components/add-item-row";
-import { ItemRow } from "@/components/item-row";
+import { ItemRow, itemGridClass } from "@/components/item-row";
 import { SummaryBar } from "@/components/summary-bar";
 import { Button } from "@/components/ui/button";
 import {
@@ -166,11 +167,17 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
             </div>
 
             {list.items.length > 0 && (
-              <div className="hidden grid-cols-[1.5rem_minmax(0,1fr)_8.5rem_9.75rem_2rem] gap-x-2 px-2 pb-1 text-[11px] uppercase tracking-wide text-muted-foreground sm:grid">
+              <div
+                className={cn(
+                  "hidden gap-x-2 px-2 pb-1 text-[11px] uppercase tracking-wide text-muted-foreground sm:grid",
+                  itemGridClass,
+                )}
+              >
                 <span />
                 <span className="px-2">Product</span>
                 <span className="px-2 text-right">MRP</span>
                 <span className="px-2">Date</span>
+                <span />
                 <span />
               </div>
             )}
@@ -189,10 +196,12 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
                   <ItemRow
                     key={item.id}
                     index={idx}
+                    count={list.items.length}
                     item={item}
                     currency={store.currency}
                     symbol={symbol}
                     onChange={(patch) => store.updateItem(list.id, item.id, patch)}
+                    onMove={(direction) => store.moveItem(list.id, item.id, direction)}
                     onRemove={() => store.removeItem(list.id, item.id)}
                   />
                 ))}

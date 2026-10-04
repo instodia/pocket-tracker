@@ -68,7 +68,15 @@ function touch(list: ExpenseList): ExpenseList {
 }
 
 function updateListIn(state: AppState, id: string, patch: (l: ExpenseList) => ExpenseList): AppState {
-  return { ...state, lists: state.lists.map((l) => (l.id === id ? touch(patch(l)) : l)) };
+  let changed = false;
+  const lists = state.lists.map((l) => {
+    if (l.id !== id) return l;
+    const next = patch(l);
+    if (next === l) return l;
+    changed = true;
+    return touch(next);
+  });
+  return changed ? { ...state, lists } : state;
 }
 
 export function useExpenseLists() {
@@ -138,6 +146,19 @@ export function useExpenseLists() {
     [],
   );
 
+  const moveItem = useCallback((id: string, itemId: string, direction: "up" | "down") => {
+    commit((s) =>
+      updateListIn(s, id, (l) => {
+        const from = l.items.findIndex((i) => i.id === itemId);
+        const to = direction === "up" ? from - 1 : from + 1;
+        if (from === -1 || to < 0 || to >= l.items.length) return l;
+        const items = [...l.items];
+        [items[from], items[to]] = [items[to], items[from]];
+        return { ...l, items };
+      }),
+    );
+  }, []);
+
   const removeItem = useCallback((id: string, itemId: string) => {
     commit((s) =>
       updateListIn(s, id, (l) => ({ ...l, items: l.items.filter((i) => i.id !== itemId) })),
@@ -168,6 +189,7 @@ export function useExpenseLists() {
     setReceivedDate,
     addItem,
     updateItem,
+    moveItem,
     removeItem,
     setCurrency,
     resetStorage,
