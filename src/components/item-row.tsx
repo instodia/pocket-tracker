@@ -29,6 +29,8 @@ export function ItemRow({ index, item, currency, symbol, onChange, onRemove }: P
 
       <div className="min-w-0">
         <input
+          type="search"
+          enterKeyHint="done"
           value={item.name}
           onChange={(e) => onChange({ name: e.target.value })}
           placeholder="Product name"
@@ -57,6 +59,8 @@ export function ItemRow({ index, item, currency, symbol, onChange, onRemove }: P
       >
         <span className="text-muted-foreground">{symbol}</span>
         <input
+          type="search"
+          enterKeyHint="done"
           value={item.mrp}
           onChange={(e) => onChange({ mrp: e.target.value })}
           inputMode="decimal"

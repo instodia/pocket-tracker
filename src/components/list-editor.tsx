@@ -78,6 +78,8 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
           </div>
 
           <input
+            type="search"
+            enterKeyHint="done"
             value={list.title}
             onChange={(e) => store.setTitle(list.id, e.target.value)}
             placeholder={generatedTitle}
@@ -102,6 +104,8 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
               <span className="text-xl font-semibold text-amber-200/70">{symbol}</span>
               <input
                 id="received"
+                type="search"
+                enterKeyHint="done"
                 name="received-amount"
                 value={list.received}
                 onChange={(e) => store.setReceived(list.id, e.target.value)}

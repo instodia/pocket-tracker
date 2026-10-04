@@ -31,6 +31,7 @@ export function AddItemRow({ symbol, onAdd }: Props) {
   const [mrp, setMrp] = useState("");
   const [date, setDate] = useState(todayISO);
   const nameRef = useRef<HTMLInputElement>(null);
+  const mrpRef = useRef<HTMLInputElement>(null);
 
   const canAdd = name.trim().length > 0 || mrp.trim().length > 0;
 
@@ -42,7 +43,17 @@ export function AddItemRow({ symbol, onAdd }: Props) {
     nameRef.current?.focus();
   }
 
-  function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+  function onNameKeyDown(e: KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return;
+    e.preventDefault();
+    if (mrp.trim().length === 0) {
+      mrpRef.current?.focus();
+    } else {
+      submit();
+    }
+  }
+
+  function onMrpKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       e.preventDefault();
       submit();
@@ -57,9 +68,11 @@ export function AddItemRow({ symbol, onAdd }: Props) {
     >
       <Input
         ref={nameRef}
+        type="search"
+        enterKeyHint="next"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        onKeyDown={onKeyDown}
+        onKeyDown={onNameKeyDown}
         placeholder="Add a product, e.g. Milk"
         aria-label="New item name"
         name="product"
@@ -74,9 +87,12 @@ export function AddItemRow({ symbol, onAdd }: Props) {
         <label className="flex h-9 cursor-text items-center gap-1 rounded-lg border border-input bg-background px-2.5 text-sm tabular-nums focus-within:border-ring focus-within:ring-3 focus-within:ring-ring/50">
           <span className="text-muted-foreground">{symbol}</span>
           <input
+            ref={mrpRef}
+            type="search"
+            enterKeyHint="done"
             value={mrp}
             onChange={(e) => setMrp(e.target.value)}
-            onKeyDown={onKeyDown}
+            onKeyDown={onMrpKeyDown}
             inputMode="decimal"
             placeholder="MRP"
             aria-label="New item MRP"
