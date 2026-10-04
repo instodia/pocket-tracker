@@ -8,7 +8,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "shine bg-gradient-to-b from-primary to-[oklch(0.14_0_0)] text-primary-foreground hover:from-[oklch(0.26_0_0)] hover:to-primary",
+          "bg-primary text-primary-foreground ring-1 ring-foreground/15 hover:bg-[oklch(0.26_0_0)]",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
