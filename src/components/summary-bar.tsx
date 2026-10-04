@@ -1,5 +1,6 @@
 "use client";
 
+import type * as React from "react";
 import { cn } from "cn";
 import { formatMoney } from "@/lib/format";
 import type { CurrencyCode } from "@/lib/types";
@@ -21,7 +22,15 @@ export function SummaryBar({ spent, received, currency, itemCount }: Props) {
       <div className="mx-auto grid max-w-3xl grid-cols-3 gap-2 px-4 py-3 sm:gap-4 sm:px-6">
         <Stat label="Received" value={formatMoney(received, currency)} muted={!hasReceived} />
         <Stat
-          label={`Total expense · ${itemCount} ${itemCount === 1 ? "item" : "items"}`}
+          label={
+            <>
+              Total
+              <span className="hidden sm:inline">
+                {" "}
+                expense · {itemCount} {itemCount === 1 ? "item" : "items"}
+              </span>
+            </>
+          }
           value={formatMoney(spent, currency)}
           emphasis
         />
@@ -44,7 +53,7 @@ function Stat({
   tone,
   align,
 }: {
-  label: string;
+  label: React.ReactNode;
   value: string;
   emphasis?: boolean;
   muted?: boolean;
