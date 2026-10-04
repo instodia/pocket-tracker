@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, CalendarDays, Copy, Trash2, Wallet } from "lucide-react";
+import { ArrowLeft, Copy, Trash2, Wallet } from "lucide-react";
 import { AddItemRow } from "@/components/add-item-row";
 import { ItemRow } from "@/components/item-row";
 import { SummaryBar } from "@/components/summary-bar";
@@ -15,7 +15,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { listTotals, type ExpenseStore } from "@/hooks/use-expense-lists";
-import { autoTitle, currencySymbol, displayTitle, formatDate, formatMoney, parseAmount } from "@/lib/format";
+import { autoTitle, currencySymbol, displayTitle, formatDate, parseAmount } from "@/lib/format";
 import type { ExpenseList } from "@/lib/types";
 
 type Props = {
@@ -92,26 +92,14 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
             {dateRange ? dateRange : "No expenses yet"}
           </p>
 
-          <section className="mt-5 rounded-2xl border border-amber-500/30 bg-gradient-to-br from-amber-950/50 to-orange-950/20 p-4">
-            <div className="flex flex-wrap items-center justify-between gap-2">
-              <label htmlFor="received" className="flex items-center gap-2 text-sm font-medium text-amber-200">
-                <Wallet className="size-4" />
-                Received from home
-              </label>
-              <label className="flex items-center gap-1.5 text-xs text-amber-200/80">
-                <CalendarDays className="size-3.5" />
-                <span className="sr-only">Date received</span>
-                <input
-                  type="date"
-                  value={list.receivedDate}
-                  onChange={(e) => store.setReceivedDate(list.id, e.target.value)}
-                  aria-label="Date received"
-                  className="h-7 rounded-md border border-amber-500/30 bg-black/30 px-2 text-xs text-amber-100 outline-none focus-visible:border-amber-400"
-                />
-              </label>
-            </div>
-            <div className="mt-2 flex items-baseline">
-              <span className="text-2xl font-semibold text-amber-200/70 sm:text-3xl">{symbol}</span>
+          <section
+            className="mt-4 flex items-center gap-3 rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-950/50 to-orange-950/20 px-3 py-2"
+            aria-label="Amount received from home"
+          >
+            <Wallet className="size-4 shrink-0 text-amber-200/80" aria-hidden />
+            <label htmlFor="received" className="flex min-w-0 flex-1 cursor-text items-baseline gap-0.5">
+              <span className="sr-only">Amount received from home</span>
+              <span className="text-xl font-semibold text-amber-200/70">{symbol}</span>
               <input
                 id="received"
                 name="received-amount"
@@ -120,14 +108,16 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
                 inputMode="decimal"
                 autoComplete="off"
                 placeholder="0"
-                className="w-full min-w-0 bg-transparent text-3xl font-bold tracking-tight text-amber-50 outline-none tabular-nums placeholder:text-amber-200/30 sm:text-4xl"
+                className="w-full min-w-0 bg-transparent text-2xl font-bold tracking-tight text-amber-50 outline-none tabular-nums placeholder:text-amber-200/30"
               />
-            </div>
-            <p className="mt-1 text-xs text-amber-200/70">
-              {received > 0
-                ? `${formatMoney(received, store.currency)} received on ${formatDate(list.receivedDate)}`
-                : "Enter the amount you were given and the date you got it."}
-            </p>
+            </label>
+            <input
+              type="date"
+              value={list.receivedDate}
+              onChange={(e) => store.setReceivedDate(list.id, e.target.value)}
+              aria-label="Date received"
+              className="h-8 shrink-0 rounded-md border border-amber-500/30 bg-black/30 px-2 text-xs text-amber-100 outline-none focus-visible:border-amber-400"
+            />
           </section>
 
           <section className="mt-6">
