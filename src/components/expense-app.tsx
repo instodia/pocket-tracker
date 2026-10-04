@@ -27,6 +27,7 @@ export function ExpenseApp() {
     return sorted.filter(
       (l) =>
         displayTitle(l, store.currency).toLowerCase().includes(q) ||
+        l.id.toLowerCase().includes(q.replace(/^#/, "")) ||
         l.items.some((i) => i.name.toLowerCase().includes(q)),
     );
   }, [sorted, query, store.currency]);
@@ -110,7 +111,7 @@ export function ExpenseApp() {
                 enterKeyHint="search"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search lists or products"
+                placeholder="Search lists, products, or ID"
                 autoComplete="off"
                 aria-label="Search lists"
                 className="bg-background pl-8"

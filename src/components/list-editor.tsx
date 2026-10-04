@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { ArrowLeft, Copy, Trash2, Wallet } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowLeft, Check, Copy, Hash, Trash2, Wallet } from "lucide-react";
 import { AddItemRow } from "@/components/add-item-row";
 import { ItemRow } from "@/components/item-row";
 import { SummaryBar } from "@/components/summary-bar";
@@ -28,6 +28,20 @@ type Props = {
 
 export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Props) {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copiedTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  useEffect(() => () => { if (copiedTimer.current) clearTimeout(copiedTimer.current); }, []);
+
+  async function copyId() {
+    try {
+      await navigator.clipboard.writeText(list.id);
+      setCopied(true);
+      if (copiedTimer.current) clearTimeout(copiedTimer.current);
+      copiedTimer.current = setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* Clipboard access can be denied; the ID is still visible to copy by hand. */
+    }
+  }
   const symbol = currencySymbol(store.currency);
   const { spent, received } = listTotals(list, parseAmount);
   const generatedTitle = autoTitle(list, store.currency);
@@ -89,10 +103,27 @@ export function ListEditor({ list, store, onBack, onDeleted, onDuplicated }: Pro
             spellCheck={false}
             className="w-full rounded-md border border-transparent bg-transparent px-2 py-1 text-2xl font-semibold tracking-tight outline-none transition-colors placeholder:text-foreground/70 hover:border-border focus-visible:border-ring sm:text-3xl"
           />
-          <p className="mt-1 px-2 text-xs text-muted-foreground">
-            {list.title.trim() ? "" : "Auto title · type to rename · "}
-            {dateRange ? dateRange : "No expenses yet"}
-          </p>
+          <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 px-2 text-xs text-muted-foreground">
+            <button
+              type="button"
+              onClick={copyId}
+              title="Copy list ID"
+              aria-label={`List ID ${list.id}, copy to clipboard`}
+              className="inline-flex items-center gap-1 rounded-md border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-[11px] tracking-wider text-foreground/80 transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            >
+              <Hash className="size-3" aria-hidden />
+              {list.id}
+              {copied ? (
+                <Check className="size-3 text-emerald-400" aria-hidden />
+              ) : (
+                <Copy className="size-3 opacity-60" aria-hidden />
+              )}
+            </button>
+            <span>
+              {list.title.trim() ? "" : "Auto title · type to rename · "}
+              {dateRange ? dateRange : "No expenses yet"}
+            </span>
+          </div>
 
           <section
             className="mt-4 flex items-center gap-3 rounded-xl border border-amber-500/30 bg-gradient-to-br from-amber-950/50 to-orange-950/20 px-3 py-2"

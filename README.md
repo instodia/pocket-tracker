@@ -8,6 +8,7 @@ for you at the bottom. Create as many lists as you like, one per week, trip, or 
 ## Features
 
 - **Multiple lists**, Keep-style: create, duplicate, search, and delete expense lists.
+- **Unique 8-character ID** on every list (letters and digits without look-alikes), shown on cards and in the editor with one-tap copy; search by ID with or without a leading `#`.
 - **Received from home** amount and the date it was received at the top of every list.
 - **Automatic titles**: a list you don't name shows as `₹500 • 4 October` (amount and received date); type a title any time to override it.
 - **Product rows** with name, MRP, and date. The date defaults to today and can be changed per item.

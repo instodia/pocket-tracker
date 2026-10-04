@@ -82,7 +82,10 @@ export function ListCard({ list, currency, selected, compact, onSelect }: Props)
         </div>
       )}
 
-      <p className="text-xs text-muted-foreground">Edited {formatRelativeUpdated(list.updatedAt)}</p>
+      <div className="flex items-center justify-between gap-2 text-xs text-muted-foreground">
+        <span>Edited {formatRelativeUpdated(list.updatedAt)}</span>
+        <span className="font-mono text-[11px] tracking-wider text-muted-foreground/80">#{list.id}</span>
+      </div>
     </button>
   );
 }

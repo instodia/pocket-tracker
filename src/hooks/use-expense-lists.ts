@@ -2,7 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 import { todayISO } from "@/lib/format";
-import { DEFAULT_STATE, STORAGE_KEY, loadState, newId, saveState } from "@/lib/storage";
+import { DEFAULT_STATE, STORAGE_KEY, loadState, newId, newListId, saveState } from "@/lib/storage";
 import type { AppState, CurrencyCode, ExpenseItem, ExpenseList } from "@/lib/types";
 
 type Snapshot = {
@@ -77,7 +77,7 @@ export function useExpenseLists() {
   const createList = useCallback((): string => {
     const now = Date.now();
     const list: ExpenseList = {
-      id: newId(),
+      id: newListId(getSnapshot().state.lists.map((l) => l.id)),
       title: "",
       received: "",
       receivedDate: todayISO(),
@@ -99,7 +99,7 @@ export function useExpenseLists() {
     const now = Date.now();
     const copy: ExpenseList = {
       ...source,
-      id: newId(),
+      id: newListId(getSnapshot().state.lists.map((l) => l.id)),
       title: source.title ? `${source.title} (copy)` : "",
       items: source.items.map((i) => ({ ...i, id: newId() })),
       createdAt: now,

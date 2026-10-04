@@ -8,6 +8,7 @@ export type ExpenseItem = {
 };
 
 export type ExpenseList = {
+  /** 8-character unique code (A–Z, 2–9 without look-alikes), shown to the user. */
   id: string;
   title: string;
   /** Amount received from home for this list, raw string (see ExpenseItem.mrp). */
