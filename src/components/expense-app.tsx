@@ -5,6 +5,7 @@ import { cn } from "cn";
 import { AlertTriangle, NotebookPen, Plus, Search, X } from "lucide-react";
 import { ListCard } from "@/components/list-card";
 import { ListEditor } from "@/components/list-editor";
+import { InstallButton } from "@/components/pwa";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { listTotals, useExpenseLists } from "@/hooks/use-expense-lists";
@@ -47,7 +48,7 @@ export function ExpenseApp() {
 
   return (
     <div className="flex h-dvh flex-col bg-background text-foreground">
-      <header className="flex items-center gap-3 border-b bg-background/80 px-4 py-2.5 backdrop-blur sm:px-6">
+      <header className="flex items-center gap-3 border-b bg-background/80 px-4 py-2.5 pt-[max(0.625rem,env(safe-area-inset-top))] backdrop-blur sm:px-6">
         <div className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-lg bg-amber-400 text-amber-950">
             <NotebookPen className="size-4" />
@@ -63,6 +64,7 @@ export function ExpenseApp() {
         <label className="sr-only" htmlFor="currency">
           Currency
         </label>
+        <InstallButton />
         <select
           id="currency"
           value={store.currency}

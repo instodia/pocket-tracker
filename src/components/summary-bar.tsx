@@ -19,7 +19,7 @@ export function SummaryBar({ spent, received, currency, itemCount }: Props) {
 
   return (
     <div className="sticky bottom-0 z-10 border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/80">
-      <div className="mx-auto grid max-w-3xl grid-cols-3 gap-2 px-4 py-3 sm:gap-4 sm:px-6">
+      <div className="mx-auto grid max-w-3xl grid-cols-3 gap-2 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] sm:gap-4 sm:px-6">
         <Stat label="Received" value={formatMoney(received, currency)} muted={!hasReceived} />
         <Stat
           label={
