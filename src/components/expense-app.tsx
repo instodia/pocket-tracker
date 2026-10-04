@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { cn } from "cn";
 import { AlertTriangle, NotebookPen, Plus, Search, X } from "lucide-react";
 import { ListCard } from "@/components/list-card";
@@ -8,12 +8,13 @@ import { ListEditor } from "@/components/list-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { listTotals, useExpenseLists } from "@/hooks/use-expense-lists";
+import { useUrlListId } from "@/hooks/use-url-list-id";
 import { CURRENCIES, displayTitle, formatMoney, parseAmount } from "@/lib/format";
 import type { CurrencyCode } from "@/lib/types";
 
 export function ExpenseApp() {
   const store = useExpenseLists();
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const { id: selectedId, select, back } = useUrlListId();
   const [query, setQuery] = useState("");
 
   const sorted = useMemo(
@@ -34,14 +35,18 @@ export function ExpenseApp() {
 
   const selected = store.lists.find((l) => l.id === selectedId) ?? null;
 
+  // Drop a stale ?id= (deleted list, typo in a shared link) once data has loaded.
+  useEffect(() => {
+    if (store.status === "ready" && selectedId && !selected) select(null, "replace");
+  }, [store.status, selectedId, selected, select]);
+
   const grandTotal = useMemo(
     () => store.lists.reduce((sum, l) => sum + listTotals(l, parseAmount).spent, 0),
     [store.lists],
   );
 
   function handleCreate() {
-    const id = store.createList();
-    setSelectedId(id);
+    select(store.createList());
   }
 
   const showEditorOnMobile = selected !== null;
@@ -146,7 +151,7 @@ export function ExpenseApp() {
                     currency={store.currency}
                     selected={list.id === selectedId}
                     compact
-                    onSelect={() => setSelectedId(list.id)}
+                    onSelect={() => select(list.id)}
                   />
                 ))}
               </div>
@@ -165,9 +170,9 @@ export function ExpenseApp() {
               key={selected.id}
               list={selected}
               store={store}
-              onBack={() => setSelectedId(null)}
-              onDeleted={() => setSelectedId(null)}
-              onDuplicated={(id) => setSelectedId(id)}
+              onBack={back}
+              onDeleted={() => select(null, "replace")}
+              onDuplicated={(id) => select(id)}
             />
           ) : (
             <div className="flex h-full items-center justify-center p-8 text-center">
