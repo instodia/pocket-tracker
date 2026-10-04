@@ -12,6 +12,8 @@ export type ExpenseList = {
   title: string;
   /** Amount received from home for this list, raw string (see ExpenseItem.mrp). */
   received: string;
+  /** Date the amount was received, YYYY-MM-DD. */
+  receivedDate: string;
   items: ExpenseItem[];
   createdAt: number;
   updatedAt: number;

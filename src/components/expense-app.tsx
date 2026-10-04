@@ -8,7 +8,7 @@ import { ListEditor } from "@/components/list-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { listTotals, useExpenseLists } from "@/hooks/use-expense-lists";
-import { CURRENCIES, formatMoney, parseAmount } from "@/lib/format";
+import { CURRENCIES, displayTitle, formatMoney, parseAmount } from "@/lib/format";
 import type { CurrencyCode } from "@/lib/types";
 
 export function ExpenseApp() {
@@ -26,10 +26,10 @@ export function ExpenseApp() {
     if (!q) return sorted;
     return sorted.filter(
       (l) =>
-        l.title.toLowerCase().includes(q) ||
+        displayTitle(l, store.currency).toLowerCase().includes(q) ||
         l.items.some((i) => i.name.toLowerCase().includes(q)),
     );
-  }, [sorted, query]);
+  }, [sorted, query, store.currency]);
 
   const selected = store.lists.find((l) => l.id === selectedId) ?? null;
 
@@ -46,7 +46,7 @@ export function ExpenseApp() {
   const showEditorOnMobile = selected !== null;
 
   return (
-    <div className="flex h-dvh flex-col bg-[#faf8f3] text-foreground dark:bg-background">
+    <div className="flex h-dvh flex-col bg-background text-foreground">
       <header className="flex items-center gap-3 border-b bg-background/80 px-4 py-2.5 backdrop-blur sm:px-6">
         <div className="flex items-center gap-2">
           <span className="flex size-8 items-center justify-center rounded-lg bg-amber-400 text-amber-950">
@@ -83,7 +83,7 @@ export function ExpenseApp() {
       </header>
 
       {store.error && (
-        <div className="flex items-start gap-3 border-b border-amber-300 bg-amber-50 px-4 py-2 text-sm text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-100 sm:px-6">
+        <div className="flex items-start gap-3 border-b border-amber-500/40 bg-amber-950/40 px-4 py-2 text-sm text-amber-100 sm:px-6">
           <AlertTriangle className="mt-0.5 size-4 shrink-0" />
           <p className="flex-1">{store.error}</p>
           <Button variant="ghost" size="xs" onClick={store.resetStorage}>
@@ -109,6 +109,7 @@ export function ExpenseApp() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search lists or products"
+                autoComplete="off"
                 aria-label="Search lists"
                 className="bg-background pl-8"
               />
@@ -190,7 +191,7 @@ export function ExpenseApp() {
 function EmptyState({ onCreate }: { onCreate: () => void }) {
   return (
     <div className="mx-auto mt-6 max-w-md rounded-2xl border bg-background p-6 text-center shadow-sm">
-      <span className="mx-auto flex size-12 items-center justify-center rounded-xl bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-200">
+      <span className="mx-auto flex size-12 items-center justify-center rounded-xl bg-amber-950 text-amber-200">
         <NotebookPen className="size-6" />
       </span>
       <h2 className="mt-4 text-lg font-semibold">Your first expense list</h2>

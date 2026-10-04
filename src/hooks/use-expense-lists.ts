@@ -80,6 +80,7 @@ export function useExpenseLists() {
       id: newId(),
       title: "",
       received: "",
+      receivedDate: todayISO(),
       items: [],
       createdAt: now,
       updatedAt: now,
@@ -114,6 +115,10 @@ export function useExpenseLists() {
 
   const setReceived = useCallback((id: string, received: string) => {
     commit((s) => updateListIn(s, id, (l) => ({ ...l, received })));
+  }, []);
+
+  const setReceivedDate = useCallback((id: string, receivedDate: string) => {
+    commit((s) => updateListIn(s, id, (l) => ({ ...l, receivedDate })));
   }, []);
 
   const addItem = useCallback((id: string, draft: Omit<ExpenseItem, "id">) => {
@@ -160,6 +165,7 @@ export function useExpenseLists() {
     duplicateList,
     setTitle,
     setReceived,
+    setReceivedDate,
     addItem,
     updateItem,
     removeItem,

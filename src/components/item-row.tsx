@@ -33,6 +33,10 @@ export function ItemRow({ index, item, currency, symbol, onChange, onRemove }: P
           onChange={(e) => onChange({ name: e.target.value })}
           placeholder="Product name"
           aria-label={`Item ${index + 1} name`}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
+          name={`product-${item.id}`}
           className={cn(inlineInputClass, "h-7 sm:h-8")}
         />
         <input
@@ -44,20 +48,27 @@ export function ItemRow({ index, item, currency, symbol, onChange, onRemove }: P
         />
       </div>
 
-      <div className="relative">
-        <span className="pointer-events-none absolute inset-y-0 left-1.5 flex items-center text-xs text-muted-foreground sm:left-2 sm:text-sm">
-          {symbol}
-        </span>
+      <label
+        className={cn(
+          inlineInputClass,
+          "flex cursor-text items-center justify-end gap-0.5 px-1.5 font-medium tabular-nums sm:font-normal",
+        )}
+        title={amount ? formatMoney(amount, currency) : undefined}
+      >
+        <span className="text-muted-foreground">{symbol}</span>
         <input
           value={item.mrp}
           onChange={(e) => onChange({ mrp: e.target.value })}
           inputMode="decimal"
-          placeholder="0.00"
+          autoComplete="off"
+          name={`price-${item.id}`}
+          placeholder="0"
           aria-label={`Item ${index + 1} MRP`}
-          title={amount ? formatMoney(amount, currency) : undefined}
-          className={cn(inlineInputClass, "pl-5 text-right font-medium tabular-nums sm:pl-6 sm:font-normal")}
+          size={Math.max(item.mrp.length, 1)}
+          className="h-full min-w-0 max-w-full bg-transparent text-left outline-none tabular-nums placeholder:text-muted-foreground"
+          style={{ width: `calc(${Math.max(item.mrp.length, 1)}ch + 2px)` }}
         />
-      </div>
+      </label>
 
       <input
         type="date"
@@ -72,7 +83,7 @@ export function ItemRow({ index, item, currency, symbol, onChange, onRemove }: P
         size="icon-sm"
         aria-label={`Remove item ${index + 1}`}
         onClick={onRemove}
-        className="text-muted-foreground hover:text-rose-600 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
+        className="text-muted-foreground hover:text-rose-400 sm:opacity-0 sm:group-hover:opacity-100 sm:focus-visible:opacity-100"
       >
         <Trash2 />
       </Button>

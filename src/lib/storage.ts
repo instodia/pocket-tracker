@@ -1,3 +1,4 @@
+import { toISODate } from "./format";
 import type { AppState, CurrencyCode, ExpenseItem, ExpenseList } from "./types";
 
 export const STORAGE_KEY = "expense-notes:v1";
@@ -42,6 +43,10 @@ function sanitizeList(raw: unknown): ExpenseList | null {
     title: typeof raw.title === "string" ? raw.title : "",
     received:
       typeof raw.received === "string" ? raw.received : String(raw.received ?? ""),
+    receivedDate:
+      typeof raw.receivedDate === "string"
+        ? raw.receivedDate
+        : toISODate(typeof raw.createdAt === "number" ? raw.createdAt : now),
     items,
     createdAt: typeof raw.createdAt === "number" ? raw.createdAt : now,
     updatedAt: typeof raw.updatedAt === "number" ? raw.updatedAt : now,

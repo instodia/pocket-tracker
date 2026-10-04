@@ -8,8 +8,10 @@ for you at the bottom. Create as many lists as you like, one per week, trip, or 
 ## Features
 
 - **Multiple lists**, Keep-style: create, duplicate, search, and delete expense lists.
-- **Received from home** amount at the top of every list.
+- **Received from home** amount and the date it was received at the top of every list.
+- **Automatic titles**: a list you don't name shows as `₹500 • 4 October` (amount and received date); type a title any time to override it.
 - **Product rows** with name, MRP, and date. The date defaults to today and can be changed per item.
+- **Pure black UI** with an animated light that travels around primary buttons (disabled under `prefers-reduced-motion`).
 - **Live totals** pinned to the bottom: received, total expense, and remaining (or how far over budget you are).
 - **Currency switcher** (INR default, plus USD, EUR, GBP) with locale-aware formatting.
 - **Saved on-device** in the browser's local storage, synced across open tabs. No account or server required.

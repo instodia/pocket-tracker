@@ -2,7 +2,7 @@
 
 import { cn } from "cn";
 import { listTotals } from "@/hooks/use-expense-lists";
-import { formatMoney, formatRelativeUpdated, parseAmount } from "@/lib/format";
+import { displayTitle, formatMoney, formatRelativeUpdated, parseAmount } from "@/lib/format";
 import type { CurrencyCode, ExpenseList } from "@/lib/types";
 
 type Props = {
@@ -27,7 +27,7 @@ export function ListCard({ list, currency, selected, compact, onSelect }: Props)
       className={cn(
         "group flex w-full flex-col gap-3 rounded-xl bg-card p-4 text-left ring-1 ring-foreground/10 transition-all",
         "hover:ring-foreground/25 hover:shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-        selected && "bg-amber-50 ring-amber-400 dark:bg-amber-950/30 dark:ring-amber-500/60",
+        selected && "bg-amber-950/30 ring-amber-500/60",
         compact && "gap-2 p-3",
       )}
     >
@@ -36,10 +36,9 @@ export function ListCard({ list, currency, selected, compact, onSelect }: Props)
           className={cn(
             "line-clamp-2 font-medium leading-snug",
             compact ? "text-sm" : "text-base",
-            !list.title && "text-muted-foreground italic",
           )}
         >
-          {list.title || "Untitled list"}
+          {displayTitle(list, currency)}
         </h3>
         <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
           {list.items.length} {list.items.length === 1 ? "item" : "items"}
